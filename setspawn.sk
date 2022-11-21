@@ -1,0 +1,109 @@
+options:
+
+#---------MESSAGES-----------
+
+	prefix: &4Spawn &8>>
+	teleported_message: &7Teleported
+	stand_still_message: &7Teleporting to spawn, please stand still
+	denied_from_move_message: &cTeleportation canceled... next time stand still
+	setspawn_message: &7Spawn successfully set at
+	
+#----------PERMISSIONS---------
+	
+	spawn_on_join_permission: spawn.on-join
+	spawn_cooldown_bypass: spawn.cooldown_bypass
+	spawn_admin_permission: spawn.admin
+	no_permission_message: &cNo Permission
+	spawn_use_permission: spawn.use
+ 
+ 
+command /setspawn:
+    permission: spawn.set
+    permission message: {@no_permission_message}
+    usage: player
+    trigger:
+        set {spawn} to location of player
+        send "{@prefix} - {@setspawn_message}: &e%{spawn}%"
+ 
+on first join:
+    teleport player to {spawn}
+ 
+command /spawn [<player>]:
+    permission: murderfarm.spawn.use
+    permission message: {@no_permission_message}
+    trigger:
+        if arg-1 is set:
+            if player has permission "{@spawn_admin_permission}":
+                teleport arg-1 to {spawn}
+            else:
+                send "{@prefix} {@no_permission_message}"
+ 
+        if arg-1 is not set:
+            if player does not have permission "{@spawn_cooldown_bypass}":
+                set {_location.%player%.x} to rounded x coord of player
+                set {_location.%player%.y} to rounded y coord of player
+                set {_location.%player%.z} to rounded z coord of player
+                send "{@prefix} {@stand_still_message}" to player
+                wait 1 second
+                if rounded x coord of player is {_location.%player%.x}:
+                    if rounded y coord of player is {_location.%player%.y}:
+                        if rounded z coord of player is {_location.%player%.z}:
+                            wait 1 second
+                        else:
+                            send "{@prefix} {@denied_from_move_message}"
+                            stop
+                    else:
+                        send "{@prefix}  {@denied_from_move_message}"
+                        stop
+                else:
+                    send "{@prefix} {@denied_from_move_message}"
+                    stop
+                if rounded x coord of player is {_location.%player%.x}:
+                    if rounded y coord of player is {_location.%player%.y}:
+                        if rounded z coord of player is {_location.%player%.z}:
+                            wait 1 second
+                        else:
+                            send "{@prefix} {@denied_from_move_message}"
+                            stop
+                    else:
+                        send "{@prefix} {@denied_from_move_message}"
+                        stop
+                else:
+                    send "{@prefix} {@denied_from_move_message}"
+                    stop
+                if rounded x coord of player is {_location.%player%.x}:
+                    if rounded y coord of player is {_location.%player%.y}:
+                        if rounded z coord of player is {_location.%player%.z}:
+                            wait 1 second
+                        else:
+                            send "{@prefix} {@denied_from_move_message}"
+                            stop
+                    else:
+                        send "{@prefix} {@denied_from_move_message}"
+                        stop
+                else:
+                    send "{@prefix} {@denied_from_move_message}"
+                    stop
+                if rounded x coord of player is {_location.%player%.x}:
+                    if rounded y coord of player is {_location.%player%.y}:
+                        if rounded z coord of player is {_location.%player%.z}:
+                            teleport player to {spawn}
+                            send "{@prefix} {@teleported_message}"
+                        else:
+                            send "{@prefix} {@denied_from_move_message}"
+                            stop
+                    else:
+                        send "{@prefix} {@denied_from_move_message}"
+                        stop
+                else:
+                    send "{@prefix} - {@denied_from_move_message}"
+                    stop
+            if player has permission "{@spawn_use_permission}":
+                teleport player to {spawn}
+                send "{@prefix} {@teleported_message}"
+				
+on join:
+	if player doesn't have permission "{@spawn_on_join_permission}":
+		teleport player to {spawn}
+	else:
+		wait 1 tick
